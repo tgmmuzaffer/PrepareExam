@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PrepareExam.Data;
+using PrepareExam.Repository;
+using PrepareExam.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,6 @@ namespace PrepareExam
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PrepareExamDbContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("PrepareExamContextConnection")));
@@ -32,10 +33,10 @@ namespace PrepareExam
             {
                 options.LoginPath = "/Account/Login";
             });
+            services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddControllersWithViews();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -45,17 +46,13 @@ namespace PrepareExam
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
             app.UseAuthentication();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
