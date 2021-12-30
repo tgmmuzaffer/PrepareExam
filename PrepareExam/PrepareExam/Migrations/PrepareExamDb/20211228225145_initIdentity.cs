@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PrepareExam.Migrations
+namespace PrepareExam.Migrations.PrepareExamDb
 {
-    public partial class BlogAdded : Migration
+    public partial class initIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

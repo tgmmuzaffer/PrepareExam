@@ -7,8 +7,8 @@ using PrepareExam.Data;
 
 namespace PrepareExam.Migrations
 {
-    [DbContext(typeof(PrepareExamDbContext))]
-    partial class PrepareExamDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PrepareExamIdentityDbContext))]
+    partial class PrepareExamIdentityDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -206,23 +206,6 @@ namespace PrepareExam.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("PrepareExam.Models.Blog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Blogs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

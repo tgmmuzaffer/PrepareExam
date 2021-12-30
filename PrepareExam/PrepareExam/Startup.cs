@@ -27,13 +27,17 @@ namespace PrepareExam
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PrepareExamDbContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("PrepareExamContextConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<PrepareExamDbContext>();
+            services.AddEntityFrameworkSqlite().AddDbContext<PrepareExamDbContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("PrepareExamContextConnection")));
+            services.AddEntityFrameworkSqlite().AddDbContext<PrepareExamIdentityDbContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("PrepareExamContextConnection")));
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<PrepareExamIdentityDbContext>();
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
-            });
+            }); 
             services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IAnswerRepository, AnswerRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            //services.AddScoped<IExamRepository, ExamRepository>();
             services.AddControllersWithViews();
         }
 

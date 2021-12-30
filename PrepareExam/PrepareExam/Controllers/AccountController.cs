@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PrepareExam.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
 
         private readonly UserManager<IdentityUser> _userManager;
@@ -21,9 +21,7 @@ namespace PrepareExam.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        [HttpGet]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [HttpGet]        
         public IActionResult Register()
         {
             return View();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PrepareExam.Migrations
 {
-    public partial class init : Migration
+    public partial class initIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

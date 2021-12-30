@@ -8,9 +8,9 @@ using PrepareExam.Data;
 
 namespace PrepareExam.Migrations
 {
-    [DbContext(typeof(PrepareExamDbContext))]
-    [Migration("20211228003241_init")]
-    partial class init
+    [DbContext(typeof(PrepareExamIdentityDbContext))]
+    [Migration("20211228224941_initIdentity")]
+    partial class initIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

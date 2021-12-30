@@ -1,1 +1,345 @@
-﻿<h1>prepare Exam Page</h1>
+﻿@model PrepareExam.Models.ViewModels.ExamPartsViewModel
+@{
+    ViewData["Title"] = "Sınav Oluştur";
+    var bloglist = ViewBag.Bloglist as List<SelectListItem>;
+}
+<style>
+    .dnone {
+        display: none;
+    }
+</style>
+<h1 style="text-align:center">Sınav Oluştur</h1>
+
+<div class="row" style="justify-content:space-around">
+    <div class="col-md-12">
+        <form method="post" asp-antiforgery="true" enctype="multipart/form-data" asp-action="blabla">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                @*<label class="pr-4 pl-4">Yazı Başlığı</label>*@
+                <h3>Yazı Başlığı</h3>
+                <div class="col-md-12 m-0 p-0">
+
+                    @Html.DropDownListFor(m => m.Blog.Id, bloglist, "-Lütfen bir başlık şeçiniz-", new { @class = "form-control blogdropdown col-md-12" })
+                    <span asp-validation-for="Blog" class="text-danger"></span>
+
+                </div>
+                <div id="textarea" class="col-md-12 mt-2 dnone">
+                    <textarea class="col-md-12" id="blogcontent" style="height:fit-content !important"></textarea>
+                </div>
+                <div class="col-md-12 mt-1 mb-1 p-0 border rounded">
+                    @* Question1 *@
+                    <div class="col-md-10 mt-2 ">
+                        @*<label class="pr-4 pl-4">Soru 1</label>*@
+                        <h5>Soru 1</h5>
+                        <input id="question1" asp-for="Questions" class="form-control">
+                        <span asp-validation-for="Questions" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-10 mt-1 mb-1 p-1">
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">A</span>
+                            <input id="s1c1" type="text" asp-for="Questions" class="form-control h-auto d-inline-block" placeholder="Cevap 1" aria-label="Cevap 1" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">B</span>
+                            <input id="s1c2" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 2" aria-label="Cevap 2" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">C</span>
+                            <input id="s1c3" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 3" aria-label="Cevap 3" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">D</span>
+                            <input id="s1c4" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 4" aria-label="Cevap 4" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="col-md-12 mt-1 mb-1 p-1">
+                            <select id="selectTrue1" class="form-control col-md-12 mt-1">
+                                <option value="" disabled selected>Doğru cevabı belirleyiniz</option>
+                                <option value="s1c1">A</option>
+                                <option value="s1c2">B</option>
+                                <option value="s1c3">C</option>
+                                <option value="s1c4">D</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <hr />
+                    @* Question2 *@
+                    <div class="col-md-10 mt-2 ">
+                        <h5>Soru 2</h5>
+                        <input id="question2" asp-for="Questions" class="form-control">
+                        <span asp-validation-for="Questions" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-10 mt-1 mb-1 p-1">
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">A</span>
+                            <input id="s2c1" type="text" asp-for="Questions" class="form-control h-auto d-inline-block" placeholder="Cevap 1" aria-label="Cevap 1" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">B</span>
+                            <input id="s2c2" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 2" aria-label="Cevap 2" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">C</span>
+                            <input id="s2c3" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 3" aria-label="Cevap 3" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">D</span>
+                            <input id="s2c4" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 4" aria-label="Cevap 4" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="col-md-12 mt-1 mb-1 p-1">
+                            <select id="selectTrue2" class="form-control col-md-12 mt-1">
+                                <option value="" disabled selected>Doğru cevabı belirleyiniz</option>
+                                <option value="s2c1">A</option>
+                                <option value="s2c2">B</option>
+                                <option value="s2c3">C</option>
+                                <option value="s2c4">D</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <hr />
+
+                    @* Question3 *@
+                    @*<div class="col-md-10 mt-2 ">
+                        <h5>Soru 3</h5>
+                        <input id="question3" asp-for="Questions" class="form-control">
+                        <span asp-validation-for="Questions" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-10 mt-1 mb-1 p-1">
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">A</span>
+                            <input id="s3c1" type="text" asp-for="Questions" class="form-control h-auto d-inline-block" placeholder="Cevap 1" aria-label="Cevap 1" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">B</span>
+                            <input id="s3c2" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 2" aria-label="Cevap 2" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">C</span>
+                            <input id="s3c3" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 3" aria-label="Cevap 3" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">D</span>
+                            <input id="s3c4" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 4" aria-label="Cevap 4" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="col-md-12 mt-1 mb-1 p-1">
+                            <select id="selectTrue3" class="form-control col-md-12 mt-1">
+                                <option value="" disabled selected>Doğru cevabı belirleyiniz</option>
+                                <option value="s3c1">A</option>
+                                <option value="s3c2">B</option>
+                                <option value="s3c3">C</option>
+                                <option value="s3c4">D</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <hr />*@
+
+                    @* Question4 *@
+                    @*<div class="col-md-10 mt-2 ">
+                        <h5>Soru 4</h5>
+                        <input id="question4" asp-for="Questions" class="form-control">
+                        <span asp-validation-for="Questions" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-10 mt-1 mb-1 p-1">
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">A</span>
+                            <input id="s4c1" type="text" asp-for="Questions" class="form-control h-auto d-inline-block" placeholder="Cevap 1" aria-label="Cevap 1" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">B</span>
+                            <input id="s4c2" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 2" aria-label="Cevap 2" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">C</span>
+                            <input id="s4c3" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 3" aria-label="Cevap 3" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="pl-2 input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">D</span>
+                            <input id="s4c4" type="text" asp-for="Questions" class="form-control" placeholder="Cevap 4" aria-label="Cevap 4" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="col-md-12 mt-1 mb-1 p-1">
+                            <select id="selectTrue" class="form-control col-md-12 mt-1">
+                                <option value="" disabled selected>Doğru cevabı belirleyiniz</option>
+                                <option value="s4c1">A</option>
+                                <option value="s4c2">B</option>
+                                <option value="s4c3">C</option>
+                                <option value="s4c4">D</option>
+                            </select>
+                        </div>
+
+                    </div>*@
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-6">
+                    <button id="SaveExam" type="submit" class="btn btn-primary form-control">
+                        Kaydet
+                    </button>
+                </div>
+                <div class="col-6">
+                    <a href="/" class="btn btn-success form-control">Sorular</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $('.blogdropdown').on("click", function () {
+        var selectedVal = $('#Blog_Id').find(":selected").val();
+        var id = Number(selectedVal);
+        $.ajax({
+            url: '/Exam/GetBlogContent/' + id,
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.length > 0) {
+                    $('#textarea').removeClass('dnone');
+                    $('#blogcontent').html('');
+                    $('#blogcontent').html(data);
+                } else {
+                    alert('Birşeyler tesr gitti');
+                }
+
+            }
+
+        }).fail(function () {
+            alert('Birşeyler ters gitti');
+        });
+    });
+
+    $('#SaveExam').on("click", function () {
+        var blogVal = $('#Blog_Id').find(":selected").val();
+        var blogid = Number(blogVal);
+        var blogTitle = $('#Blog_Id').find(":selected").text();
+        var blogContent = $('#blogcontent').text();
+        console.log('blogcontent', blogContent);
+        debugger;
+        //question1
+        var query1_selectedTrue = $('#selectTrue1').find(":selected").val();
+        var q1a1 = $('#s1c1').val();
+        var q1a2 = $('#s1c2').val();
+        var q1a3 = $('#s1c3').val();
+        var q1a4 = $('#s1c4').val();
+
+        var query1_answer1 = { Id: 0, AnswerContent: q1a1, IsCorrect: false };
+        var query1_answer2 = { Id: 0, AnswerContent: q1a2, IsCorrect: false };
+        var query1_answer3 = { Id: 0, AnswerContent: q1a3, IsCorrect: false };
+        var query1_answer4 = { Id: 0, AnswerContent: q1a4, IsCorrect: false};
+        if (query1_selectedTrue == "s1c1") {
+            query1_answer1 = { Id: 0, AnswerContent: q1a1, IsCorrect: true };
+        }
+        else if (query1_selectedTrue == "s1c2") {
+            query1_answer2 = { Id: 0, AnswerContent: q1a2, IsCorrect: true };
+        }
+        else if (query1_selectedTrue == "s1c3") {
+            query1_answer3 = { Id: 0, AnswerContent: q1a3, IsCorrect: true };
+        }
+        else if (query1_selectedTrue == "s1c4") {
+            query1_answer4 = { Id: 0, AnswerContent: q1a4, IsCorrect: true };
+        }
+        var q1 = $('#question1').val();
+        //question2
+        var query2_selectedTrue = $('#selectTrue2').find(":selected").val();
+        var q2a1 = $('#s2c1').val();
+        var q2a2 = $('#s2c2').val();
+        var q2a3 = $('#s2c3').val();
+        var q2a4 = $('#s2c4').val();
+
+        var query2_answer1 = { Id: 0, AnswerContent: q2a1, IsCorrect: false };
+        var query2_answer2 = { Id: 0, AnswerContent: q2a2, IsCorrect: false };
+        var query2_answer3 = { Id: 0, AnswerContent: q2a3, IsCorrect: false };
+        var query2_answer4 = { Id: 0, AnswerContent: q2a4, IsCorrect: false };
+        if (query2_selectedTrue == "s2c1") {
+            query2_answer1 = { Id: 0, AnswerContent: q2a1, IsCorrect: true };
+        }
+        else if (query2_selectedTrue == "s2c2") {
+            query2_answer2 = { Id: 0, AnswerContent: q2a2, IsCorrect: true };
+        }
+        else if (query2_selectedTrue == "s2c3") {
+            query2_answer3 = { Id: 0, AnswerContent: q2a3, IsCorrect: true };
+        }
+        else if (query2_selectedTrue == "s2c4") {
+            query2_answer4 = { Id: 0, AnswerContent: q2a4, IsCorrect: true };
+        }
+        var q2 = $('#question2').val();
+        //question3
+        //var query1_selectedTrue = $('#selectTrue1').find(":selected").val();
+        //var query1_answer1 = { Id: 0, AnswerContent: q1a1, IsCorrect: false };
+        //var query1_answer2 = { Id: 0, AnswerContent: q1a2, IsCorrect: false };
+        //var query1_answer3 = { Id: 0, AnswerContent: q1a3, IsCorrect: false };
+        //var query1_answer4 = { Id: 0, AnswerContent: q1a4, IsCorrect: false };
+        //if (query1_selectedTrue == "s1c1") {
+        //    var q1a1 = $('#s1c1').val();
+        //    query1_answer1 = { Id: 0, AnswerContent: q1a1, IsCorrect: true };
+        //}
+        //else if (query1_selectedTrue == "s1c2") {
+        //    var q1a2 = $('#s1c2').val();
+        //    query1_answer2 = { Id: 0, AnswerContent: q1a2, IsCorrect: true };
+        //}
+        //else if (query1_selectedTrue == "s1c3") {
+        //    var q1a3 = $('#s1c3').val();
+        //    query1_answer3 = { Id: 0, AnswerContent: q1a3, IsCorrect: true };
+        //}
+        //else if (query1_selectedTrue == "s1c4") {
+        //    var q1a4 = $('#s1c4').val();
+        //    query1_answer4 = { Id: 0, AnswerContent: q1a4, IsCorrect: true };
+        //}
+        //var q1 = $('#question1').val();
+        //question4
+        //var query1_selectedTrue = $('#selectTrue1').find(":selected").val();
+        //var query1_answer1 = { Id: 0, AnswerContent: q1a1, IsCorrect: false };
+        //var query1_answer2 = { Id: 0, AnswerContent: q1a2, IsCorrect: false };
+        //var query1_answer3 = { Id: 0, AnswerContent: q1a3, IsCorrect: false };
+        //var query1_answer4 = { Id: 0, AnswerContent: q1a4, IsCorrect: false };
+        //if (query1_selectedTrue == "s1c1") {
+        //    var q1a1 = $('#s1c1').val();
+        //    query1_answer1 = { Id: 0, AnswerContent: q1a1, IsCorrect: true };
+        //}
+        //else if (query1_selectedTrue == "s1c2") {
+        //    var q1a2 = $('#s1c2').val();
+        //    query1_answer2 = { Id: 0, AnswerContent: q1a2, IsCorrect: true };
+        //}
+        //else if (query1_selectedTrue == "s1c3") {
+        //    var q1a3 = $('#s1c3').val();
+        //    query1_answer3 = { Id: 0, AnswerContent: q1a3, IsCorrect: true };
+        //}
+        //else if (query1_selectedTrue == "s1c4") {
+        //    var q1a4 = $('#s1c4').val();
+        //    query1_answer4 = { Id: 0, AnswerContent: q1a4, IsCorrect: true };
+        //}
+        //var q1 = $('#question1').val();
+
+        const exam = {
+            Blog: {
+                Id: blogid,
+                Title: blogTitle,
+                Content: blogContent
+            }, Questions: [
+                {
+                    Id: 0,
+                    QuestionContent: q1,
+                    AnswerId: 0,
+                    Answers: [query1_answer1, query1_answer2, query1_answer3, query1_answer4]
+                },
+                {
+                    Id: 0,
+                    QuestionContent: q2,
+                    AnswerId: 0,
+                    Answers: [query2_answer1, query2_answer2, query2_answer3, query2_answer4]
+                },
+            ]
+        }
+        var res = JSON.stringify(exam);
+        console.log(res);
+        debugger;
+    });
+
+</script>

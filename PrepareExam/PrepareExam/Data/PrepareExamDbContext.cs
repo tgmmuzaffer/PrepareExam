@@ -8,13 +8,15 @@ using System.Threading.Tasks;
 
 namespace PrepareExam.Data
 {
-    public class PrepareExamDbContext : IdentityDbContext
+    public class PrepareExamDbContext : DbContext
     {
-        //IdentityDbContext
         public PrepareExamDbContext(DbContextOptions<PrepareExamDbContext> options) : base(options)
         {            
         }
-        public virtual DbSet<Blog> Blogs { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Exam> Exams { get; set; }
 
     }
 }
