@@ -17,16 +17,17 @@ namespace PrepareExam.Controllers
     {
         private readonly IBlogRepository _blogRepository;
         private readonly IAnswerRepository _answerRepository;
-        public ExamController(IBlogRepository blogRepository, IAnswerRepository answerRepository)
+        private readonly IQuestionRepository _questionRepository;
+        private readonly IExamRepository _examRepository;
+        public ExamController(IBlogRepository blogRepository, IAnswerRepository answerRepository, IExamRepository examRepository, IQuestionRepository questionRepository)
         {
             _blogRepository = blogRepository;
-            _answerRepository=answerRepository;
+            _answerRepository = answerRepository;
+            _examRepository = examRepository;
+            _questionRepository = questionRepository; ;
         }
         public async Task<IActionResult> Prepare()
         {
-
-            Exam exam = new Exam();
-
             var blogs = await _blogRepository.GetListAsync();
             List<SelectListItem> bloglist = new List<SelectListItem>();
             foreach (var item in blogs)
@@ -42,157 +43,60 @@ namespace PrepareExam.Controllers
         [HttpPost]
         public async Task<IActionResult> GetBlogContent(int id)
         {
-            ExamPartsViewModel exam = new ExamPartsViewModel()
-            {
-                Blog = new Blog()
-                {
-                    Id = 1,
-                    Title = "title",
-                    Content = "Content"
-                },
-                Questions = new List<Question>()
-                {
-                    new Question()
-                    {
-                        Id = 1,
-                        QuestionContent = "Questioncontent1",
-                        Answers = new List<Answer>()
-                        {
-                            new Answer()
-                            {
-                                Id=1,
-                                AnswerContent="Cevap11",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=2,
-                                AnswerContent="Cevap21",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=3,
-                                AnswerContent="Cevap31",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=4,
-                                AnswerContent="Cevap41",
-                                IsCorrect=true
-                            },
-                            
-                        }
-                    },
-                    new Question()
-                    {
-                        Id = 2,
-                        QuestionContent = "Questioncontent2",
-                        Answers = new List<Answer>()
-                        {
-                            new Answer()
-                            {
-                                Id=1,
-                                AnswerContent="Cevap12",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=2,
-                                AnswerContent="Cevap22",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=3,
-                                AnswerContent="Cevap32",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=4,
-                                AnswerContent="Cevap42",
-                                IsCorrect=true
-                            },
-                            
-                        }
-                    },
-                    new Question()
-                    {
-                        Id = 3,
-                        QuestionContent = "Questioncontent3",
-                        Answers = new List<Answer>()
-                        {
-                            new Answer()
-                            {
-                                Id=1,
-                                AnswerContent="Cevap13",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=2,
-                                AnswerContent="Cevap23",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=3,
-                                AnswerContent="Cevap33",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=4,
-                                AnswerContent="Cevap43",
-                                IsCorrect=true
-                            },
-                            
-                        }
-                    },
-                    new Question()
-                    {
-                        Id = 4,
-                        QuestionContent = "Questioncontent4",
-                        Answers = new List<Answer>()
-                        {
-                            new Answer()
-                            {
-                                Id=1,
-                                AnswerContent="Cevap14",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=2,
-                                AnswerContent="Cevap24",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=3,
-                                AnswerContent="Cevap34",
-                                IsCorrect=false
-                            },
-                            new Answer()
-                            {
-                                Id=4,
-                                AnswerContent="Cevap44",
-                                IsCorrect=true
-                            },
-                            
-                        }
-                    },
-                }
-            };
-            var t = JsonConvert.SerializeObject(exam);
-
-
-
-            var res = await _blogRepository.Get(a => a.Id==id);
+            var res = await _blogRepository.Get(a => a.Id == id);
             var jsonres = JsonConvert.SerializeObject(res.Content);
             return Json(jsonres);
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> SaveExam(ExamPartsViewModel exam)
+        {
+            Exam _exam = new Exam { BlogId = exam.Blog.Id, CreateDate = DateTime.Now };
+            var examRes = await _examRepository.Create(_exam);
+            foreach (var itemQ in exam.Questions)
+            {
+                Question question = new Question { ExamId = examRes.Id, QuestionContent = itemQ.QuestionContent };
+                var questionRes = await _questionRepository.Create(question);
+                foreach (var itemA in itemQ.Answers)
+                {
+                    Answer answer = new Answer { AnswerContent = itemA.AnswerContent, IsCorrect = itemA.IsCorrect, QuestionId = questionRes.Id };
+                    _ = await _answerRepository.Create(answer);
+                }
+            }
+
+            return Json(1);
+        }
+
+        public async Task<IActionResult> Exams()
+        {
+            List<ExamPartsViewModel> examParts = new List<ExamPartsViewModel>();
+
+            var exams = await _examRepository.GetListAsync();
+
+            foreach (var itemExam in exams)
+            {
+                ExamPartsViewModel examPart = new ExamPartsViewModel()
+                {
+                    Id=itemExam.Id,
+                    Blog= await _blogRepository.Get(a => a.Id == itemExam.BlogId),
+                    Questions= await _questionRepository.GetListAsync(a => a.ExamId == itemExam.Id),
+                    CreateDate=itemExam.CreateDate
+                };
+                
+                foreach (var itemExamQ in examPart.Questions)
+                {
+                    itemExamQ.Answers = await _answerRepository.GetListAsync(a => a.QuestionId == itemExamQ.Id);
+                }
+                examParts.Add(examPart);
+            }
+
+            var t = examParts;
+            return View(examParts);
+        }
+        public async Task<IActionResult> DeleteExam(int Id)
+        {
+            return Json(1);
         }
     }
 }

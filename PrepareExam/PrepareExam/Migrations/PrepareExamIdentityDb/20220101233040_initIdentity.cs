@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PrepareExam.Migrations
+namespace PrepareExam.Migrations.PrepareExamIdentityDb
 {
     public partial class initIdentity : Migration
     {

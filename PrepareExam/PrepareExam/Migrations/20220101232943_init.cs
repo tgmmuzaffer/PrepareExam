@@ -1,11 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PrepareExam.Migrations.PrepareExamDb
+namespace PrepareExam.Migrations
 {
-    public partial class answerQuestionExam : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Blogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blogs", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Exams",
                 columns: table => new
@@ -13,17 +28,11 @@ namespace PrepareExam.Migrations.PrepareExamDb
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     BlogId = table.Column<int>(nullable: false),
-                    questionId = table.Column<int>(nullable: false)
+                    CreateDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Exams", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Exams_Blogs_BlogId",
-                        column: x => x.BlogId,
-                        principalTable: "Blogs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,18 +42,11 @@ namespace PrepareExam.Migrations.PrepareExamDb
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     QuestionContent = table.Column<string>(nullable: true),
-                    AnswerId = table.Column<int>(nullable: false),
-                    ExamId = table.Column<int>(nullable: true)
+                    ExamId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Questions_Exams_ExamId",
-                        column: x => x.ExamId,
-                        principalTable: "Exams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,7 +57,7 @@ namespace PrepareExam.Migrations.PrepareExamDb
                         .Annotation("Sqlite:Autoincrement", true),
                     AnswerContent = table.Column<string>(nullable: true),
                     IsCorrect = table.Column<bool>(nullable: false),
-                    QuestionId = table.Column<int>(nullable: true)
+                    QuestionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,23 +67,13 @@ namespace PrepareExam.Migrations.PrepareExamDb
                         column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",
                 table: "Answers",
                 column: "QuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Exams_BlogId",
-                table: "Exams",
-                column: "BlogId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Questions_ExamId",
-                table: "Questions",
-                column: "ExamId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -90,10 +82,13 @@ namespace PrepareExam.Migrations.PrepareExamDb
                 name: "Answers");
 
             migrationBuilder.DropTable(
-                name: "Questions");
+                name: "Blogs");
 
             migrationBuilder.DropTable(
                 name: "Exams");
+
+            migrationBuilder.DropTable(
+                name: "Questions");
         }
     }
 }

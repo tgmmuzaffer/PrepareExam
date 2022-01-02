@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrepareExam.Data;
 
-namespace PrepareExam.Migrations.PrepareExamDb
+namespace PrepareExam.Migrations
 {
     [DbContext(typeof(PrepareExamDbContext))]
-    [Migration("20211229114232_answer-Question-Exam")]
-    partial class answerQuestionExam
+    [Migration("20220101232943_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,7 +30,7 @@ namespace PrepareExam.Migrations.PrepareExamDb
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("QuestionId")
+                    b.Property<int>("QuestionId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -66,12 +66,10 @@ namespace PrepareExam.Migrations.PrepareExamDb
                     b.Property<int>("BlogId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("questionId")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BlogId");
 
                     b.ToTable("Exams");
                 });
@@ -82,18 +80,13 @@ namespace PrepareExam.Migrations.PrepareExamDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AnswerId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ExamId")
+                    b.Property<int>("ExamId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("QuestionContent")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExamId");
 
                     b.ToTable("Questions");
                 });
@@ -102,23 +95,9 @@ namespace PrepareExam.Migrations.PrepareExamDb
                 {
                     b.HasOne("PrepareExam.Models.Question", null)
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId");
-                });
-
-            modelBuilder.Entity("PrepareExam.Models.Exam", b =>
-                {
-                    b.HasOne("PrepareExam.Models.Blog", "Blog")
-                        .WithMany()
-                        .HasForeignKey("BlogId")
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("PrepareExam.Models.Question", b =>
-                {
-                    b.HasOne("PrepareExam.Models.Exam", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("ExamId");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrepareExam.Data;
 
-namespace PrepareExam.Migrations
+namespace PrepareExam.Migrations.PrepareExamIdentityDb
 {
     [DbContext(typeof(PrepareExamIdentityDbContext))]
-    partial class PrepareExamIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220101233040_initIdentity")]
+    partial class initIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

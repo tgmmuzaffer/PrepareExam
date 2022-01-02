@@ -8,7 +8,7 @@ namespace PrepareExam.Controllers
 {
     public class ErrorController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Error()
         {
             return View();
         }

@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 
 namespace PrepareExam
 {
+    //"PrepareExamContextConnection": "Data Source=PrepareExamDb.db"
+    
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -37,7 +39,7 @@ namespace PrepareExam
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<IAnswerRepository, AnswerRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
-            //services.AddScoped<IExamRepository, ExamRepository>();
+            services.AddScoped<IExamRepository, ExamRepository>();
             services.AddControllersWithViews();
         }
 
@@ -49,10 +51,23 @@ namespace PrepareExam
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Error");
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Xss-Protection", "1; mode=block");
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    //string route = "/Error/Error";
+                    //context.Request.Path = route;
+                    context.Request.Path="/Error/Error";
+                    await next();
+
+                }
+            });
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
