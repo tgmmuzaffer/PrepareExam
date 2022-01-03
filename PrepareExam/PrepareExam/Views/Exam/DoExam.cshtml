@@ -1,0 +1,64 @@
+﻿@using PrepareExam.Models.ViewModels
+@model ExamPartsViewModel
+@{
+    ViewData["Title"] = "Sınav";
+    string[] choises = { "A", "B", "C", "D" };
+}
+<style>
+    li.checkbefore {
+        background-color: azure;
+    }
+</style>
+<div class="container">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 id="blog" value="@Model.Blog.Id" class="card-title">@Model.Blog.Title</h5>
+            <p class="card-text">@Model.Blog.Content</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="exam" value="@Model.Id">
+    <div class="row question">
+        @{
+            int s = 1;
+            foreach (var item in Model.Questions)
+            {
+                <div class="card ml-3 mb-1 p-2">
+                    <div class="card-body">
+                        <p value="@item.Id" class="card-text questioncontent">@s) @item.QuestionContent</p>
+                    </div>
+                    <div class="card mb-2 m-2" style="width:31rem;">
+
+                        <ul id="@item.Id" value="@item.Id" class="list-group list-group-flush answerlist">
+
+                            @{
+                                int c = 0;
+                                foreach (var itemA in item.Answers)
+                                {
+                                    <li id="@itemA.Id" data-choise="@itemA.Id" onclick="choiseFunction(this)" class="list-group-item">
+                                        <i class="@choises[c]">@choises[c]</i>
+                                        ) @itemA.AnswerContent
+                                    </li>
+                                    c++;
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                s++;
+            }
+        }
+    </div>
+    <div class="row" style="justify-content:center">
+        <div class="col-6">
+            <button id="finishexam" class="btn btn-primary form-control">
+                Sınavı Bitir
+            </button>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/doexam.js"></script>

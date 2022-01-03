@@ -1,9 +1,9 @@
 ﻿@model PrepareExam.Models.ViewModels.RegisterViewModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Kayıt Ol";
 }
 
-<h1 style="text-align:center">Register</h1>
+<h1 style="text-align:center">Kayıt Ol</h1>
 
 <div class="row" style="justify-content:space-around">
     <div class="col-md-6">
@@ -26,7 +26,9 @@
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn-primary">Register</button>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-primary" type="submit">Kayıt Ol</button>
+            </div>
         </form>
 
     </div>

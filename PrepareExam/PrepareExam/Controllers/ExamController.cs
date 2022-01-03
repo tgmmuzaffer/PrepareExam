@@ -26,6 +26,7 @@ namespace PrepareExam.Controllers
             _examRepository = examRepository;
             _questionRepository = questionRepository; ;
         }
+        [Route("Sinav-Hazirla")]
         public async Task<IActionResult> Prepare()
         {
             var blogs = await _blogRepository.GetListAsync();
@@ -67,7 +68,7 @@ namespace PrepareExam.Controllers
 
             return Json(1);
         }
-
+        [Route("Sinavlar")]
         public async Task<IActionResult> Exams()
         {
             List<ExamPartsViewModel> examParts = new List<ExamPartsViewModel>();
@@ -78,25 +79,99 @@ namespace PrepareExam.Controllers
             {
                 ExamPartsViewModel examPart = new ExamPartsViewModel()
                 {
-                    Id=itemExam.Id,
-                    Blog= await _blogRepository.Get(a => a.Id == itemExam.BlogId),
-                    Questions= await _questionRepository.GetListAsync(a => a.ExamId == itemExam.Id),
-                    CreateDate=itemExam.CreateDate
+                    Id = itemExam.Id,
+                    Blog = await _blogRepository.Get(a => a.Id == itemExam.BlogId),
+                    Questions = await _questionRepository.GetListAsync(a => a.ExamId == itemExam.Id),
+                    CreateDate = itemExam.CreateDate
                 };
-                
+
                 foreach (var itemExamQ in examPart.Questions)
                 {
                     itemExamQ.Answers = await _answerRepository.GetListAsync(a => a.QuestionId == itemExamQ.Id);
                 }
                 examParts.Add(examPart);
             }
-
-            var t = examParts;
             return View(examParts);
         }
-        public async Task<IActionResult> DeleteExam(int Id)
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteExam(int Id)
         {
-            return Json(1);
+            Exam exam = await _examRepository.Get(a => a.Id == Id);
+            bool isQuestionDelete = false;
+            bool isAnswerDelete = false;
+
+            ICollection<Question> questions = await _questionRepository.GetListAsync(b => b.ExamId == exam.Id);
+            foreach (var itemQ in questions)
+            {
+                ICollection<Answer> answers = await _answerRepository.GetListAsync(c => c.QuestionId == itemQ.Id);
+                foreach (var itemA in answers)
+                {
+                    isAnswerDelete = await _answerRepository.Delete(itemA);
+                }
+
+                isQuestionDelete = await _questionRepository.Delete(itemQ);
+            }
+            bool isExamDelete = await _examRepository.Delete(exam);
+
+            if (isExamDelete && isQuestionDelete && isAnswerDelete)
+            {
+                return Json(1);
+            }
+
+            return Json(0);
+        }
+
+        public async Task<IActionResult> DoExam(int Id)
+        {
+            Exam exam = await _examRepository.Get(a => a.Id == Id);
+            ICollection<Question> questions = await _questionRepository.GetListAsync(a => a.ExamId == exam.Id);
+            foreach (var itemQ in questions)
+            {
+                ICollection<Answer> answers = await _answerRepository.GetListAsync(b => b.QuestionId == itemQ.Id);
+            }
+            ExamPartsViewModel examPart = new ExamPartsViewModel()
+            {
+                Id = exam.Id,
+                Blog = await _blogRepository.Get(a => a.Id == exam.BlogId),
+                Questions = questions
+            };
+            return View(examPart);
+        }
+        [Route("Sinav-Sonucu")]
+        public async Task<IActionResult> ExamResult(string examid, string id)
+        {
+
+            var examId = JsonConvert.DeserializeObject<string>(examid);
+            var userAnwersIds = JsonConvert.DeserializeObject<List<string>>(id);
+            Exam exam = await _examRepository.Get(a => a.Id == Convert.ToInt32(examId));
+            ICollection<Question> questions = await _questionRepository.GetListAsync(a => a.ExamId == exam.Id);
+            foreach (var itemQ in questions)
+            {
+                ICollection<Answer> answers = await _answerRepository.GetListAsync(b => b.QuestionId == itemQ.Id);
+                    foreach (var itemA in answers)
+                    {
+                        if (itemA.IsCorrect && userAnwersIds.Any(a => a.Contains(itemA.Id.ToString())))
+                        {
+                            itemA.AnswerStatus = "true";
+                        }
+                        else if (itemA.IsCorrect && !userAnwersIds.Any(a => a.Contains(itemA.Id.ToString())))
+                        {
+                            itemA.AnswerStatus = "false";
+                        }
+                        else
+                        {
+                            itemA.AnswerStatus = "";
+                        }
+                    }
+            }
+            ExamPartsViewModel examPart = new ExamPartsViewModel()
+            {
+                Id = exam.Id,
+                Blog = await _blogRepository.Get(a => a.Id == exam.BlogId),
+                Questions = questions
+            };
+            return View(examPart);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model PrepareExam.Models.ViewModels.ExamPartsViewModel
 @{
-    ViewData["Title"] = "Sınav Oluştur";
+    ViewData["Title"] = "Sınav Hazırla";
     var bloglist = ViewBag.Bloglist as List<SelectListItem>;
 }
 <style>
@@ -16,13 +16,13 @@
         color: red;
     }
 </style>
-<h1 style="text-align:center">Sınav Oluştur</h1>
+<h1 style="text-align:center">Sınav Hazırla</h1>
 
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Library</li>
+        <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Sınav Hazırla</li>
     </ol>
 </nav>
 
@@ -178,7 +178,7 @@
                         </div>
                         <span id="question4Answers" class="text-danger"></span>
                         <div class="col-md-12 mt-1 mb-1 p-1">
-                            <select id="selectTrue" class="form-control col-md-12 mt-1" name="chose_correct">
+                            <select id="selectTrue4" class="form-control col-md-12 mt-1" name="chose_correct">
                                 <option value="default" disabled selected>Doğru cevabı belirleyiniz</option>
                                 <option value="s4c1">A</option>
                                 <option value="s4c2">B</option>
@@ -204,4 +204,4 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/js/form.js"></script>
+<script src="~/js/prepareexamform.js"></script>

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PrepareExam.Repository.IRepository
 {
-    public interface IQuestionRepository:IBaseRepository<Question>
+    public interface IQuestionRepository : IBaseRepository<Question>
     {
+
     }
 }

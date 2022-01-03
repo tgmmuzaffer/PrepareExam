@@ -1,6 +1,5 @@
 ﻿var isFormValid = false;
 
-//nonvalid messega delete
 $('#question1').on('click', function () {
     $('#question1span').html('');
 });
@@ -224,58 +223,19 @@ $('#examform').on("submit", function (e) {
     var query4_answer4 = { Id: 0, AnswerContent: q4a4, IsCorrect: false };
 
     if (query4_selectedTrue == "s4c1") {
-        var q4a1 = $('#s1c1').val();
         query4_answer1 = { Id: 0, AnswerContent: q4a1, IsCorrect: true };
     }
-    else if (query4_selectedTrue == "s1c2") {
-        var q4a2 = $('#s1c2').val();
+    else if (query4_selectedTrue == "s4c2") {
         query4_answer2 = { Id: 0, AnswerContent: q4a2, IsCorrect: true };
     }
-    else if (query4_selectedTrue == "s1c3") {
-        var q4a3 = $('#s4c3').val();
+    else if (query4_selectedTrue == "s4c3") {
         query4_answer3 = { Id: 0, AnswerContent: q4a3, IsCorrect: true };
     }
-    else if (query4_selectedTrue == "s1c4") {
-        var q4a4 = $('#s1c4').val();
+    else if (query4_selectedTrue == "s4c4") {
         query4_answer4 = { Id: 0, AnswerContent: q4a4, IsCorrect: true };
     }
 
     var q4 = $('#question4').val();
-
-
-    const _exam = {
-        Blog: {
-            Id: blogid,
-            Title: blogTitle,
-            Content: blogContent,
-        },
-        Questions: [
-            {
-                Id: 0,
-                QuestionContent: q1,
-                AnswerId: 0,
-                Answers: [query1_answer1, query1_answer2, query1_answer3, query1_answer4]
-            },
-            {
-                Id: 0,
-                QuestionContent: q2,
-                AnswerId: 0,
-                Answers: [query2_answer1, query2_answer2, query2_answer3, query2_answer4]
-            },
-            {
-                Id: 0,
-                QuestionContent: q3,
-                AnswerId: 0,
-                Answers: [query3_answer1, query3_answer2, query3_answer3, query3_answer4]
-            },
-            {
-                Id: 0,
-                QuestionContent: q4,
-                AnswerId: 0,
-                Answers: [query4_answer1, query4_answer2, query4_answer3, query4_answer4]
-            },
-        ]
-    };
 
     var model = {
         Blog: {
@@ -316,11 +276,11 @@ $('#examform').on("submit", function (e) {
           
             if (res==1) {
                 alert('Sınav başarılı bir şekilde kaydedildi.');
-                location.href = "/Exam/Prepare";
+                location.href = "/Sinav-Hazirla";
             }
             else {
                 alert('Sınav kaydedilemedi.');
-                setTimeout(() => location.href = "/Exam/Prepare", 2000);
+                setTimeout(() => location.href = "/Sinav-Hazirla", 2000);
                 
             }
         });

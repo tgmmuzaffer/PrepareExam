@@ -8,16 +8,16 @@ namespace PrepareExam.Models.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Eposta gerekli.")]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Şifre gerekli")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "Password and confirmation password not match.")]
+        [Display(Name = "Şifreyi Onaylayın.")]
+        [Compare("Password", ErrorMessage = "Şifre ve onay şifresi eşleşmiyor.")]
         public string ConfirmPassword { get; set; }
     }
 }

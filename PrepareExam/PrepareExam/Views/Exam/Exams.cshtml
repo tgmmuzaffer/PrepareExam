@@ -6,36 +6,75 @@
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
         <li class="breadcrumb-item active" aria-current="page">Sınavlar</li>
     </ol>
 </nav>
+@{
+    if (Model == null || Model.Count == 0)
+    {
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title">Henüz listelenicek bir sınav bulunumadı</h6>
+                <a href="/Sinav-Hazirla" class="btn btn-primary">Sınav Ekle</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Başlık</th>
+                    <th scope="col">Tarih</th>
+                    <th scope="col">##</th>
+                    <th scope="col">##</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    i++;
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@item.Blog.Title</td>
+                        <td>@item.CreateDate</td>
+                        <td>
+                            <a style="color:white" id="deleteExamRoute" data-value="@item.Id" class="btn btn-danger btn-sm px-3"><i class="fa fa-times"></i></a>
+                        </td>
+                        <td>
+                            <a href="/Exam/DoExam/@item.Id" style="color:white" class="btn btn-danger btn-sm px-3"><i class="fa fa-graduation-cap"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
 
-<table class="table align-middle">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Başlık</th>
-            <th scope="col">Tarih</th>
-            <th scope="col">##</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            i++;
-            <tr>
-                <th scope="row">@i</th>
-                <td>@item.Blog.Title</td>
-                <td>@item.CreateDate</td>
-                <td>
-                    <a href="/Exam/DeleteExam/@item.Id" class="btn btn-danger btn-sm px-3"><i class="fa fa-times"></i></a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
+    $('#deleteExamRoute').on("click", function () {
+        var routeVal = $('#deleteExamRoute').data('value');
+        var routeid = Number(routeVal);
+        $.ajax({
+            url: '/Exam/DeleteExam/' + routeid,
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data > 0) {
+                    alert('Sınav silindi.');
+                    setTimeout(() => location.href = "/Sinavlar", 600);
+                } else {
+                    alert('Birşeyler ..ters gitti');
+                }
 
+            }
+
+        }).fail(function () {
+            alert('Birşeyler ters gitti');
+        });
+    });
 </script>

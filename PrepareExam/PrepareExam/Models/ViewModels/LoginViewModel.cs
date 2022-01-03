@@ -8,14 +8,11 @@ namespace PrepareExam.Models.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Eposta gerekli")]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Şifre gerekli")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        [Display(Name = "Remember Me")]
-        public bool RememberMe { get; set; }
     }
 }
