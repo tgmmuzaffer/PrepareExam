@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrepareExam.Data;
 
 namespace PrepareExam.Migrations
 {
     [DbContext(typeof(PrepareExamDbContext))]
-    partial class PrepareExamDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220105000202_blogCreateDate")]
+    partial class blogCreateDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

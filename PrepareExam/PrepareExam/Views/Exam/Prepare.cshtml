@@ -26,7 +26,6 @@
     </ol>
 </nav>
 
-@* style="text-align: -webkit-center" *@
 <div class="row" style="justify-content:space-around">
     <div class="col-md-12">
         <form id="examform">
@@ -34,7 +33,17 @@
                 <h3>Yazı Başlığı</h3>
                 <div class="col-md-12 m-0 p-0">
 
-                    @Html.DropDownListFor(m => m.Blog.Id, bloglist, "-Lütfen bir başlık şeçiniz-", new { @class = "form-control blogdropdown col-md-12" })
+                    @*@Html.DropDownListFor(m => m.Blog.Id, bloglist, "-Lütfen bir başlık şeçiniz-", new { @class = "form-control blogdropdown col-md-12" })*@
+
+                    <select class="form-control blogdropdown col-md-12" data-val="false" id="Blog_Id">
+                        <option value="default" disabled>-Lütfen bir başlık şeçiniz-</option>
+                        @foreach (var itemBL in bloglist)
+                        {
+                            <option value="@itemBL.Value">@itemBL.Text</option>
+                        }
+                    </select>
+
+
                     <span id="s1Dropdown" class="text-danger"></span>
 
                 </div>

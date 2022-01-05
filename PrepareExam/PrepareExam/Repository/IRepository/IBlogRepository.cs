@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace PrepareExam.Repository.IRepository
 {
-    public interface IBlogRepository
+    public interface IBlogRepository:IBaseRepository<Blog>
     {
-        Task<ICollection<Blog>> GetListAsync(Expression<Func<Blog, bool>> filter = null);
-        Task<Blog> Get(Expression<Func<Blog, bool>> filter = null);
+        //Task<ICollection<Blog>> GetListAsync(Expression<Func<Blog, bool>> filter = null);
+        //Task<Blog> Get(Expression<Func<Blog, bool>> filter = null);
        
     }
 }

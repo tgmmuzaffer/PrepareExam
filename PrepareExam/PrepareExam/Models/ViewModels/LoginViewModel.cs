@@ -14,5 +14,6 @@ namespace PrepareExam.Models.ViewModels
         [Required(ErrorMessage ="Şifre gerekli")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

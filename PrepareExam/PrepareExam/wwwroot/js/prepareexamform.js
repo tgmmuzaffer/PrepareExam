@@ -37,6 +37,7 @@ $('#selectTrue4').on('click', function () {
 $('.blogdropdown').on("click", function () {
     var selectedVal = $('#Blog_Id').find(":selected").val();
     var id = Number(selectedVal);
+
     $.ajax({
         url: '/Exam/GetBlogContent/' + id,
         type: 'POST',
@@ -48,11 +49,9 @@ $('.blogdropdown').on("click", function () {
                 $('#blogcontent').html('');
                 $('#blogcontent').html(data);
             } else {
-                alert('Birşeyler tesr gitti');
+                alert('Birşeyler ters gitti');
             }
-
         }
-
     }).fail(function () {
         alert('Birşeyler ters gitti');
     });
